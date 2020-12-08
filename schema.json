@@ -4,20 +4,11 @@
     "encrypted_payload": {
       "type": "object",
       "properties": {
-        "encrypted_data": {
-          "type": "string"
-        },
-        "iv": {
-          "type": "string"
-        },
-        "data_key": {
-          "type": "string"
-        },
-        "master_key_alias": {
+        "ciphertext_blob": {
           "type": "string"
         }
       },
-      "required": ["encrypted_data", "iv", "data_key", "master_key_alias"]
+      "required": ["ciphertext_blob"]
     },
     "something_sensitive": {
       "type": "object",
