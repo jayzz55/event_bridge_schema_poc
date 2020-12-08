@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 gem 'dry-struct'
 gem "json-schema"
 gem 'aws-sdk-schemas'
+gem 'aws-sdk-eventbridge'
 
 group :test do
   gem 'rspec'

@@ -3,6 +3,7 @@ require 'json-schema'
 require 'json'
 require 'pry'
 require 'aws-sdk-schemas'
+require 'aws-sdk-eventbridge'
 
 class String
   def underscore
@@ -22,8 +23,8 @@ module Types
   include Dry.Types()
 end
 
-client = Aws::Schemas::Client.new
-schema_response = client.describe_schema(registry_name: 'test', schema_name: 'json-schema-test', schema_version: '1')
+schema_registry_client = Aws::Schemas::Client.new
+schema_response = schema_registry_client.describe_schema(registry_name: 'test', schema_name: 'json-schema-test', schema_version: '1')
 schema = JSON.parse(schema_response.content)
 p "Given event schema is #{schema}"
 
@@ -85,6 +86,21 @@ consume_something_sensitive = -> (event_json) {
 }
 
 event_json = { encrypted_something_sensitive: encrypted_something_sensitive.to_h }.to_json
+
+# event_bridge_client = Aws::EventBridge::Client.new
+# resp = event_bridge_client.put_events({
+#   entries: [ # required
+#     {
+#       time: Time.now,
+#       source: "test",
+#       resources: ["EventResource"],
+#       detail_type: "test",
+#       detail: event_json
+#     },
+#   ],
+# })
+# binding.pry
+
 
 p "result of consuming event #{consume_something_sensitive.call(event_json).to_h}"
 
