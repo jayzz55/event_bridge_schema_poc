@@ -6,6 +6,7 @@ gem 'dry-struct'
 gem "json-schema"
 gem 'aws-sdk-schemas'
 gem 'aws-sdk-eventbridge'
+gem 'aws-sdk-kms'
 
 group :test do
   gem 'rspec'

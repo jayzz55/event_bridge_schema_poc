@@ -12,3 +12,10 @@ To run the app:
 3. run `ruby main.rb`
 
 Use `binding.pry` to pry around the code :)
+
+## Cleanup
+
+Manually remove following AWS resources:
+* KMS event-consumer-test
+* EventRegistry rules pattern
+* Generated SAM cloudformation - event consumer lambda
