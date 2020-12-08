@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "encrypted_payload": {
+      "type": "object",
+      "properties": {
+        "encrypted_data": {
+          "type": "string"
+        },
+        "iv": {
+          "type": "string"
+        },
+        "data_key": {
+          "type": "string"
+        },
+        "master_key_alias": {
+          "type": "string"
+        }
+      },
+      "required": ["encrypted_data", "iv", "data_key", "master_key_alias"]
+    },
+    "something_sensitive": {
+      "type": "object",
+      "properties": {
+        "foo": {
+          "type": "string"
+        }
+      },
+      "required": ["foo"]
+    }
+  },
+
+  "type": "object",
+  "properties": {
+    "encrypted_something_sensitive": {
+      "AllOf": [{
+          "$ref": "#/definitions/encrypted_payload"
+        },
+        {
+          "properties": {
+            "schema": {
+              "enum": [
+                "#/definitions/something_sensitive"
+              ]
+            }
+          },
+          "required": ["schema"]
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}
