@@ -25,6 +25,7 @@ end
 client = Aws::Schemas::Client.new
 schema_response = client.describe_schema(registry_name: 'test', schema_name: 'json-schema-test', schema_version: '5')
 schema = JSON.parse(schema_response.content)
+p "Given event schema is #{schema}"
 
 class EncryptedPayload < Dry::Struct
   transform_keys(&:to_sym)
@@ -62,12 +63,16 @@ publish_something_sensitive = -> (something_sensitive) {
   encrypt.call(SomethingSensitive.new(something_sensitive))
 }
 
-encrypted_something_sensitive = publish_something_sensitive.call({foo: 'bar'})
+something_sensitive = {foo: 'bar'}
+p "Given something_sensitive is #{something_sensitive}"
 
-validation_result = JSON::Validator.validate(schema, { encrypted_something_sensitive: encrypted_something_sensitive.to_h }.to_json)
+decrypted_event_validation_result = JSON::Validator.validate(schema.dig("definitions", "something_sensitive"), something_sensitive.to_json)
+p "decrypted_event_validation_result prior to publishing is #{decrypted_event_validation_result}"
 
-p "validation result prior to publishing is #{validation_result}"
-p "encrypted_something_sensitive is #{encrypted_something_sensitive}"
+encrypted_something_sensitive = publish_something_sensitive.call(something_sensitive)
+encrypted_event_validation_result = JSON::Validator.validate(schema, { encrypted_something_sensitive: encrypted_something_sensitive.to_h }.to_json)
+p "encrypted_event_validation_result prior to publishing is #{encrypted_event_validation_result}"
+p "encrypted_something_sensitive is #{encrypted_something_sensitive.to_h}"
 
 decrypt = -> (encrypted_event) {
   struct = Object.const_get(encrypted_event.schema.gsub('#/definitions/', '').camelcase)
@@ -81,6 +86,6 @@ consume_something_sensitive = -> (event_json) {
 
 event_json = { encrypted_something_sensitive: encrypted_something_sensitive.to_h }.to_json
 
-p "result of consuming event #{consume_something_sensitive.call(event_json)}"
+p "result of consuming event #{consume_something_sensitive.call(event_json).to_h}"
 
 # binding.pry
