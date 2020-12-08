@@ -1,0 +1,7 @@
+source "https://rubygems.org"
+
+ruby '~> 2.7.0'
+
+gem 'dry-struct'
+gem "json-schema"
+gem 'aws-sdk-schemas'
