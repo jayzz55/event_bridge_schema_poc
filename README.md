@@ -6,16 +6,47 @@ This repo is to spike the event bridge schemas where events have encrypted blobs
 
 See: https://trello.com/c/KfYfb22c/375-poc-defining-event-bridge-schemas-where-events-have-encrypted-blobs-as-part-of-the-payload
 
-To run the app:
+## Setup
+
+* [AWS SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
+
+For the spike, I've manually created the following resources:
+* KMS event-consumer-test
+* EventRegistry rules pattern
+* Generated SAM cloudformation - event consumer lambda
+
+### Cleanup
+
+Manually remove following AWS resources:
+* KMS event-consumer-test
+* EventRegistry rules pattern
+* Generated SAM cloudformation - event consumer lambda
+
+
+## Event Publisher
+
+To run the app to publish event to AWS Event Bridge (to default event bus):
 1. `bundle install`
 2. run `awsauth` and use the dev env
 3. run `ruby main.rb`
 
 Use `binding.pry` to pry around the code :)
 
-## Cleanup
+## Event Consumer
 
-Manually remove following AWS resources:
-* KMS event-consumer-test
-* EventRegistry rules pattern
-* Generated SAM cloudformation - event consumer lambda
+This uses AWS SAM to setup lambda function that is triggered based on the event rules pattern on:
+```
+{
+  "source": [
+    "test"
+  ]
+}
+```
+
+To deploy changes of AWS SAM, which will create/update the cloudformation, run:
+```
+awsauth
+sam build && sam deploy
+```
+
+To verify thatt the lambda is consuming the event, check the cloudwatch of the AWS Lambda to verify the consumer is behaving as intended.

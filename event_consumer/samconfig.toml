@@ -1,7 +1,7 @@
 version = 0.1
-[y]
-[y.deploy]
-[y.deploy.parameters]
+[default]
+[default.deploy]
+[default.deploy.parameters]
 stack_name = "event-consumer-test"
 s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-11rw23fibiiyy"
 s3_prefix = "event-consumer-test"
