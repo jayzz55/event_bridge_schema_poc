@@ -23,7 +23,7 @@ module Types
 end
 
 client = Aws::Schemas::Client.new
-schema_response = client.describe_schema(registry_name: 'test', schema_name: 'json-schema-test', schema_version: '5')
+schema_response = client.describe_schema(registry_name: 'test', schema_name: 'json-schema-test', schema_version: '1')
 schema = JSON.parse(schema_response.content)
 p "Given event schema is #{schema}"
 

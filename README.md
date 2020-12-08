@@ -6,12 +6,9 @@ This repo is to spike the event bridge schemas where events have encrypted blobs
 
 See: https://trello.com/c/KfYfb22c/375-poc-defining-event-bridge-schemas-where-events-have-encrypted-blobs-as-part-of-the-payload
 
-running this:
-
-```
-bundle install
-awsauth
-ruby main.rb
-```
+To run the app:
+1. `bundle install`
+2. run `awsauth` and use the dev env
+3. run `ruby main.rb`
 
 Use `binding.pry` to pry around the code :)
