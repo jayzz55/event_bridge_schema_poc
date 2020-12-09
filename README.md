@@ -9,7 +9,18 @@ The main reason for encrypting the payload of the event is that we don’t trust
 > Any data that you enter into EventBridge or other services might get picked up for inclusion in diagnostic logs.
 > https://docs.aws.amazon.com/eventbridge/latest/userguide/data-protection.html
 
+
 ![aws-cloudtrail-screenshot](./docs/aws-cloudwatch-trails-payload.png)
+
+## Proposal
+
+See the `schema.json` on the proposed idea of using JSON schema Draft 4 to embed a `sub-schema` so that the encrypted schema can link back to the decrypted schema.
+
+In this example, EncryptedSomethingSensitive#schema references the actual class (our sub-schema), but not an instance.
+
+Main drawback: we will have to implement a layer to handle the “sub-schema“ validation
+
+Doesn’t seem to be another approach till JSON Schema specification doesn’t provide a solution out of the box.
 
 ## System Diagrams
 
